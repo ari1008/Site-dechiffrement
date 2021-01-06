@@ -12,7 +12,8 @@ def index():
 
 @route('/', method='POST')
 def do_index():
-    chaine = request.forms.get('texte_chiffrer')
+    print(request.headers)
+    chaine = chaine = request.forms.texte_chiffrer
     result = soluce(chaine)
     dechiffrement= Factory().factory(result[0],result[1])
     print(chaine)
