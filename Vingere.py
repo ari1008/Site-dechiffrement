@@ -1,14 +1,15 @@
 import string
 from Cesar import César
 class Vingere(César):
-
-
+    
+    #Sert a calculé ic = (ni(ni-1))/(n(n-1))
     def indice_coincidence(self,chaine):
         app = self.apparitions(chaine)
         s = sum (n * (n - 1) for n in app)
         somme = sum(app)
         return s / (somme * (somme - 1))
     
+    #Compte le nombre d'apparitions des lettres dans le string
     def apparitions(self,chaine):
         app = [0] * 26
         for c in chaine :
@@ -26,6 +27,7 @@ class Vingere(César):
     def cherche_cle_vigenere(self,chaine, n) :
         return "".join( chr(ord('A') + self.cherche_cle_cesar(chaine[i::n])) for i in range(n))
     
+    
     def cherche_longueur_cle(self,chaine, seuil=0.068, nmax=12):
         p = [(lcle, i) for lcle, i in enumerate(self.liste_indices(chaine, nmax)) if i > seuil]
         return min(p)
@@ -42,9 +44,10 @@ class Vingere(César):
             l.append(c)
             texte_déchiffrer = "".join(l)
         return texte_déchiffrer
-    
+
+    #Lance tout pour décoder automatiquementle chiffre de vigenere après la class factory
+    #Return un tuple cle et le sting dechiffre en majuscules
     def auto(self,chaine):
         lgcle, indice = self.cherche_longueur_cle(chaine)
         cle = self.cherche_cle_vigenere(chaine, lgcle)
         return cle, self.dechiffre_vigenere(chaine, cle)
-s= "SORHZIROWPQXJSPTHICGSBAISORHHSJGPTGGPGHTQVXHYGSWTQVTHIAOTGSQXSVTEYTGXXCRPJMSSVRSWIZEAORVIISIGWWJUFIROVASWEFMCQMESWSSWDZYIWSCDEGHMRIPXSVTAICHUJORSWPHOKXHHTGGWWJUFIHZIHDPJGWXATASWSSTTBHTBXSIKTBMTRIRVEFIIXRMDAITHTTIZTBXTHVTASSWJXSWTBKTBIGOPXZRNOTPGHPIXGSQDMICEYTRIHGENSVHIGRSWHWZTAICHICGISWVXUIPBXHIMKORIZIHDVDPEQWPXHIHHSJHIHZIHZECUYTGUJWZDIWHCRIQSCBYTGNJGUJOGTEYTJSJGENSDIFSJJIAOFDBRTAEXGHPBWASGWWJUFIFIMCCYHCGRITTHSJHISWJUWGJZXTOGTHIVOVSSXPWXGSWDZYTDEGZEHWKCOXJFIASVTPYHGYGZIBCXZWHSBIHHTDGWXPPTEYTRECGPPZECUYTORVZEXGIHORHQIIHIRWVRCRHHECQIYOYGOMHQSBAICQIBSWTGWPWWEOVASWEOKCCPTHPTTVPBEXGGDAQTSXPBXASWAORVIIHRECGPTGUJSPASWJBTXFEISHTGQTFWTGTPURDZIHOYGOMIRYASTAIWCOXJFIAZIBSRISRUSVBSVJBWTQVTHHTQIIHICOXJFIBOMHRECGPTQEHOGIIIAXIEFIHIQPWUJSPTQVNDXDUVPAQTSXPWXPBKAOMH"
