@@ -1,4 +1,5 @@
 import string
+from Hash import Findhash
 class Find:
     def __init__(self, text):
         self.text=text
@@ -6,11 +7,18 @@ class Find:
         self.text_upper=""
 
     def automatisation(self):
+        testhash = Findhash(self.text).auto()
+        if testhash !=  0:
+            self.chiffrement = testhash[1]
+            return  "hash"
         chaine_upper = self.majuscules(self.text)
-        chaine = self.freq(chaine_upper)
-        indice = self.incide_coincidence(chaine)
-        self.chiffrement = self.typechiffrement(indice)
-        return 
+        if self.freqAtbash(chaine_upper):
+            self.chiffrement = "Atbash"
+        else:
+            chaine = self.freq(chaine_upper)
+            indice = self.incide_coincidence(chaine)
+            self.chiffrement = self.typechiffrement(indice)
+        return "chifrement"
     
     @staticmethod
     def incide_coincidence(chaine):
@@ -41,3 +49,16 @@ class Find:
         else:
             return "César"
     
+    @staticmethod
+    def freqAtbash(string):
+        alphabet = [0] * 26
+        for c in string:
+            alphabet[ord(c)-ord('A')]+=1
+        sumAstbash = alphabet[1] + alphabet[5] + alphabet[11] + alphabet[17]+ alphabet[20]+ alphabet[25]
+        stat = sum(alphabet)-sumAstbash
+        result = stat/sumAstbash
+        print(result)
+        if result<=3:
+            return 1
+        else:
+            return 0

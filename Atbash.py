@@ -12,7 +12,6 @@ class Atbash:
           else:
               ans+=" "
       return ans
-s="WXLWV HZRG WVXIBKGVI OV XSRUUIV ZGYZHS"
-
-test=Atbash().auto(s)
-print(test)
+s="WXLWVHZRGWVXIBKGVIOVXSRUUIVZGYZHS"
+#s="DCODESAITDECRYPTERLECHIFFREATBASH"
+# V=21,H=3,Z=25,R=17,G=6,M=12,I=8 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 from bottle import route, run, request, template
 from find_encryption import Find
 from Cesar import César
@@ -12,19 +13,33 @@ def index():
 
 @route('/', method='POST')
 def do_index():
-    print(request.headers)
-    chaine = chaine = request.forms.texte_chiffrer
+    upload  = request.files.get('file')
+    if upload :
+        name, ext = os.path.splitext(upload.filename)
+        if ext not in ('.txt'):
+            return 'File extension not allowed.'
+        save_path = "file/"+ name + ext
+        upload.save(save_path)
+        f = open(save_path, "r")
+        chaine = f.read()
+        f.close()
+        os.remove(save_path)
+    else:
+        chaine = chaine = request.forms.texte_chiffrer
     result = soluce(chaine)
-    dechiffrement= Factory().factory(result[0],result[1])
-    print(chaine)
-    texte_dechiffrement=traitement(chaine,dechiffrement[1])
-    return  template('index',type_chiffrement=result[0],cle=dechiffrement[0],texte=texte_dechiffrement)
+    print(result)
+    return  template('index',type_chiffrement=result[0],cle=result[1],texte=result[2])
 
 
 def soluce(texte_chiffrer):
     text = Find(texte_chiffrer)
-    text.automatisation()
-    return text.chiffrement,text.text_upper
+    test = text.automatisation()
+    if test == "hash":
+        return "hash","Y a pas de clé",text.text
+    else:
+        dechiffrement= Factory().factory(test[0],test[1])
+        texte_dechiffrement=traitement(chaine,dechiffrement[1])
+        return test[0], dechiffrement[0],texte_dechiffrements
 
 def traitement(chaine,texte):
     result=[]
